@@ -8,14 +8,15 @@ function Bookshelf() {
         {title: 'The Fellowship of the Ring', author: 'J.R.R Tolkien'},
         {title: 'The Lion, the Witch, and the Wardrobe', author: 'C.S. Lewis'}
     ])
-    const [addedBook, setAddedBook] = React.useState([{title: '', author: ''}])
+    const [addedBook, setAddedBook] = React.useState({title: '', author: ''})
+    const [searchQuery, setSearchQuery] = React.useState('')
 
     function handleSubmit(e) {
         e.preventDefault()
         const newBooks = structuredClone(currentBooks)
         newBooks.push(addedBook)
         setCurrentBooks(newBooks)
-        setAddedBook(addedBook)
+        setAddedBook({ title: '', author: '' })
     }
 
     function handleChange(e) {
@@ -40,6 +41,21 @@ function Bookshelf() {
         setCurrentBooks(updatedBooks)   
     }
 
+    function handleSearch(e) {
+        setSearchQuery(e.target.value)  
+    }
+
+    function filterBooks() {
+        if (!searchQuery) {
+            return currentBooks
+        }
+        return currentBooks.filter((book) =>
+            book.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }
+
+    
+
     return <div className="bookshelfDiv">
         <div className="formDiv">
             <h3>Add a Book</h3>
@@ -48,14 +64,14 @@ function Bookshelf() {
                 placeholder="Book Title" 
                 type="text"
                 onChange={handleChange}
-                value={currentBooks.title}
+                value={addedBook.title}
                 name={"title"}>
                 </input>
                 <br></br>
                 <input placeholder="Book Author"
                 type="text"
                 onChange={handleChange}
-                value={currentBooks.author}
+                value={addedBook.author}
                 name={"author"}
                 ></input>
                 <br></br>
@@ -63,9 +79,18 @@ function Bookshelf() {
                 <br></br>
             </form>
             <button onClick={clearBookshelf}>Clear Bookshelf</button>
+            <br></br>
+            <h3>Search Library</h3>
+            <input
+            placeholder="Search by title..."
+            type="search"
+            name="searchQuery"
+            value={searchQuery}
+            onChange={handleSearch}>
+            </input>
         </div>
         <div className="bookCardsDiv">
-            {currentBooks.map((book, index) => {
+            {filterBooks().map((book, index) => {
                 return <div key={index} className="bookCard"> 
                     <h3>{book.title}</h3>
                     <br></br>
