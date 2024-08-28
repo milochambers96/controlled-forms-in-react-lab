@@ -108,6 +108,14 @@ input {
 }
 
 
+.bookCardButton {
+  font-size: 8px;
+}
+
+.bookCardButton:hover {
+  background-color: maroon;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

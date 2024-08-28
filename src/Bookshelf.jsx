@@ -32,6 +32,14 @@ function Bookshelf() {
         setAddedBook(addedBook)
     }
 
+    function removeBook(title, author) {
+        const newBooks = structuredClone(currentBooks);
+        const updatedBooks = newBooks.filter((book) => {
+            return book.title !== title || book.author !== author
+        })
+        setCurrentBooks(updatedBooks)   
+    }
+
     return <div className="bookshelfDiv">
         <div className="formDiv">
             <h3>Add a Book</h3>
@@ -62,6 +70,7 @@ function Bookshelf() {
                     <h3>{book.title}</h3>
                     <br></br>
                     <p>by {book.author}</p>
+                    <button onClick={() =>removeBook(book.title, book.author)} className="bookCardButton">Remove Book</button>
                 </div>   
             })}
         </div>
