@@ -24,9 +24,13 @@ function Bookshelf() {
         setAddedBook(newBook)
     }
 
-    
-
-    console.log(currentBooks, addedBook)
+    function clearBookshelf() {
+        let emptyBooks = structuredClone(currentBooks);
+        emptyBooks = [];
+        console.log(emptyBooks)
+        setCurrentBooks(emptyBooks)
+        setAddedBook(addedBook)
+    }
 
     return <div className="bookshelfDiv">
         <div className="formDiv">
@@ -39,14 +43,18 @@ function Bookshelf() {
                 value={currentBooks.title}
                 name={"title"}>
                 </input>
+                <br></br>
                 <input placeholder="Book Author"
                 type="text"
                 onChange={handleChange}
                 value={currentBooks.author}
                 name={"author"}
                 ></input>
+                <br></br>
                 <button>Add Book</button>
+                <br></br>
             </form>
+            <button onClick={clearBookshelf}>Clear Bookshelf</button>
         </div>
         <div className="bookCardsDiv">
             {currentBooks.map((book, index) => {
